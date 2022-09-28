@@ -14,5 +14,10 @@ namespace Core.Generators
         {
             return context.Random.NextSingle();
         }
+
+        public Type GetGeneratedType()
+        {
+            return typeof(float);
+        }
     }
 }

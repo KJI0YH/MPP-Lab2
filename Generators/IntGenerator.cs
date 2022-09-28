@@ -14,5 +14,10 @@ namespace Core.Generators
         {
             return context.Random.Next(1, int.MaxValue);
         }
+
+        public Type GetGeneratedType()
+        {
+            return typeof(int);
+        }
     }
 }

@@ -6,12 +6,26 @@ namespace Core.Core
     public class Faker : IFaker
     {
         private readonly GeneratorContext _generatorContext;
-        private readonly List<IValueGenerator> _valueGenerators;
+        private readonly Dictionary<Type, IValueGenerator> _valueGenerators = new();
 
         public Faker()
         {
             _generatorContext = new GeneratorContext(new Random(), this);
-            //_valueGenerators = 
+
+            var types = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(t => t.GetTypes())
+                .Where(i => typeof(IValueGenerator).IsAssignableFrom(i));
+
+            foreach (var type in types)
+            {
+                IValueGenerator? generator = (IValueGenerator?)Activator.CreateInstance(type);
+
+                if (generator != null)
+                {
+                    _valueGenerators.Add(generator.GetGeneratedType(), generator);
+                }
+            }
+
         }
 
         public T Create<T>()
@@ -30,7 +44,7 @@ namespace Core.Core
             // create object
             // init object
 
-            // return object
+            return new object();
         }
     }
 }

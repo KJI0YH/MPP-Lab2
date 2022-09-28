@@ -14,5 +14,10 @@ namespace Core.Generators
         {
             return context.Random.NextDouble();
         }
+
+        public Type GetGeneratedType()
+        {
+            return typeof(double);
+        }
     }
 }

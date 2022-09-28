@@ -20,5 +20,10 @@ namespace Core.Generators
             return new decimal(lo, mid, hi, isNegative, scale);
 
         }
+
+        public Type GetGeneratedType()
+        {
+            return typeof(decimal);
+        }
     }
 }

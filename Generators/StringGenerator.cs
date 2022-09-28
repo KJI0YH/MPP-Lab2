@@ -22,5 +22,10 @@ namespace Core.Generators
             }
             return result;
         }
+
+        public Type GetGeneratedType()
+        {
+            return typeof(string);
+        }
     }
 }

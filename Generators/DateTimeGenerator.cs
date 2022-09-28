@@ -26,5 +26,10 @@ namespace Core.Generators
             return new DateTime(year, month, day, hour, minute, second, microsecond, dtCal, dtKind);
 
         }
+
+        public Type GetGeneratedType()
+        {
+            return typeof(DateTime);
+        }
     }
 }
