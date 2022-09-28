@@ -19,9 +19,18 @@ namespace Core.Core
             return (T)CreateInstance(typeof(T));
         }
 
+        public object Create(Type type)
+        {
+            return CreateInstance(type);
+        }
+
         private object CreateInstance(Type type)
         {
+            // check cycle dependency
+            // create object
+            // init object
 
+            // return object
         }
     }
 }

@@ -13,9 +13,32 @@ namespace Core.Core
 
         public object CreateObject(Type type)
         {
-            // get all constructors
-            // try to init object with many parameters
-            // else - another constructor
+            // Get all constructors
+            var constructros = type.GetConstructors()
+                .OrderByDescending(c => c.GetParameters().Length)
+                .ToList();
+
+            // Try to init object with as many parameters as possible
+            foreach (var ctor in constructros)
+            {
+                try
+                {
+                    var parameters = ctor.GetParameters()
+                        .Select(t => t.ParameterType)
+                        .Select(_faker.Create)
+                        .ToArray();
+
+                    return ctor.Invoke(parameters);
+                }
+                catch
+                {
+
+                }
+            }
+
+            //throw new NoPublicConstructorsException
+
+
 
             // init all fields
             // recursion
