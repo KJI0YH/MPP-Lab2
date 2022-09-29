@@ -11,6 +11,11 @@ namespace Core.Core
             _faker = faker;
         }
 
+        public object InitObject(object obj)
+        {
+            return obj;
+        }
+
         private static object? GetDefaultValue(Type type)
         {
             return type.IsValueType ? Activator.CreateInstance(type) : null;

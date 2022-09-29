@@ -14,7 +14,7 @@ namespace Core.Core
 
             var types = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(t => t.GetTypes())
-                .Where(i => typeof(IValueGenerator).IsAssignableFrom(i));
+                .Where(i => typeof(IValueGenerator).IsAssignableFrom(i) && i.IsClass);
 
             foreach (var type in types)
             {
@@ -25,7 +25,6 @@ namespace Core.Core
                     _valueGenerators.Add(generator.GetGeneratedType(), generator);
                 }
             }
-
         }
 
         public T Create<T>()
@@ -40,11 +39,19 @@ namespace Core.Core
 
         private object CreateInstance(Type type)
         {
-            // check cycle dependency
-            // create object
-            // init object
+            GeneratorContext context = new GeneratorContext(new Random(), this);
 
-            return new object();
+            ObjectCreator creator = new ObjectCreator(this);
+
+            // Create object instance
+            object instance = creator.CreateObject(type);
+
+            ObjectInitor initor = new ObjectInitor(this);
+
+            // Init object instance
+            instance = initor.InitObject(instance);
+
+            return instance;
         }
     }
 }

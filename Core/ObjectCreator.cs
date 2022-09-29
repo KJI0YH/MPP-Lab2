@@ -13,36 +13,46 @@ namespace Core.Core
 
         public object CreateObject(Type type)
         {
+            object? result = null;
+
             // Get all constructors
             var constructros = type.GetConstructors()
                 .OrderByDescending(c => c.GetParameters().Length)
                 .ToList();
 
-            // Try to init object with as many parameters as possible
+            // Try to create object with as many parameters as possible
             foreach (var ctor in constructros)
             {
                 try
                 {
-                    var parameters = ctor.GetParameters()
-                        .Select(t => t.ParameterType)
+                    // Try to init constructor parameters
+                    var args = ctor.GetParameters()
+                        .Select(p => p.ParameterType)
                         .Select(_faker.Create)
                         .ToArray();
 
-                    return ctor.Invoke(parameters);
+                    result = ctor.Invoke(args);
+                    return result;
                 }
                 catch
                 {
-
+                    continue;
                 }
             }
 
-            //throw new NoPublicConstructorsException
+            if (result == null && type.IsValueType)
+            {
+                result = Activator.CreateInstance(type);
+            }
 
-
-
-            // init all fields
-            // recursion
-            // check cycle dependency?
+            if (result != null)
+            {
+                return result;
+            }
+            else
+            {
+                throw new FakerException("There are no public constructors");
+            }
         }
     }
 }
