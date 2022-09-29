@@ -15,7 +15,40 @@ namespace Core.Core
         public object InitObject(object obj)
         {
 
-            var fields = obj.GetType().GetFields(BindingFlags.Public);
+            var members = obj.GetType().GetMembers()
+                .Where(m => m.MemberType == MemberTypes.Field || m.MemberType == MemberTypes.Property);
+
+            foreach (var member in members)
+            {
+                try
+                {
+                    switch (member.MemberType)
+                    {
+                        case MemberTypes.Field:
+                            {
+                                FieldInfo field = (FieldInfo)member;
+                                if (Equals(field.GetValue(obj), GetDefaultValue(field.FieldType)))
+                                {
+                                    field.SetValue(obj, _faker.Create(field.FieldType));
+                                }
+                            }
+                            break;
+                        case MemberTypes.Property:
+                            {
+                                PropertyInfo prop = (PropertyInfo)member;
+                                if (Equals(prop.GetValue(obj), GetDefaultValue(prop.PropertyType)))
+                                {
+                                    prop.SetValue(obj, _faker.Create(prop.PropertyType));
+                                }
+                            }
+                            break;
+                    }
+                }
+                catch
+                {
+
+                }
+            }
 
             return obj;
         }
