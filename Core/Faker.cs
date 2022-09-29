@@ -44,6 +44,14 @@ namespace Core.Core
             // Try to create primitive object
             if (_valueGenerators.ContainsKey(type) && _valueGenerators[type].CanGenerate(type))
                 return _valueGenerators[type].Generate(type, context);
+            else
+            {
+                foreach (var generator in _valueGenerators)
+                {
+                    if (generator.Value.CanGenerate(type))
+                        return generator.Value.Generate(type, context);
+                }
+            }
 
             ObjectCreator creator = new ObjectCreator(this);
 
