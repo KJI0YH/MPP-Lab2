@@ -7,10 +7,12 @@ namespace Core.Core
     {
         private readonly GeneratorContext _generatorContext;
         private readonly Dictionary<Type, IValueGenerator> _valueGenerators = new();
+        private readonly CyclicChecker _cyclicChecker;
 
         public Faker()
         {
             _generatorContext = new GeneratorContext(new Random(), this);
+            _cyclicChecker = new CyclicChecker();
 
             var types = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(t => t.GetTypes())
@@ -53,6 +55,13 @@ namespace Core.Core
                 }
             }
 
+            // Checking types for cyclic dependency
+            if (_cyclicChecker.IsCyclic(type))
+            {
+                //throw new FakerException($"Cyclic dependence in {type}");
+                return null;
+            }
+
             ObjectCreator creator = new ObjectCreator(this);
 
             // Create object instance
@@ -62,6 +71,8 @@ namespace Core.Core
 
             // Init object instance
             instance = initor.InitObject(instance);
+
+            _cyclicChecker.DeleteFromCycle(type);
 
             return instance;
         }
