@@ -1,6 +1,6 @@
-﻿using Core.Interfaces;
+﻿using Faker.Interfaces;
 
-namespace Core.Core
+namespace Faker.Core
 {
     public class ObjectCreator
     {
@@ -40,9 +40,16 @@ namespace Core.Core
                 }
             }
 
-            if (result == null && type.IsValueType)
+            try
             {
-                result = Activator.CreateInstance(type);
+                if (result == null)
+                {
+                    result = Activator.CreateInstance(type);
+                }
+            }
+            catch
+            {
+                throw new FakerException($"Can not create an object of type {type.FullName}");
             }
 
             if (result != null)
@@ -51,7 +58,7 @@ namespace Core.Core
             }
             else
             {
-                throw new FakerException("There are no public constructors");
+                throw new FakerException($"There are no public constructors in {type.FullName}");
             }
         }
     }

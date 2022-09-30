@@ -1,6 +1,6 @@
-﻿using Core.Context;
+﻿using Faker.Context;
 
-namespace Core.Interfaces
+namespace Faker.Interfaces
 {
     public interface IValueGenerator
     {

@@ -1,4 +1,4 @@
-﻿namespace Core.Core
+﻿namespace Faker.Core
 {
     public class CyclicChecker
     {

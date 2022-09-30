@@ -1,7 +1,7 @@
-﻿using Core.Interfaces;
+﻿using Faker.Interfaces;
 using System.Reflection;
 
-namespace Core.Core
+namespace Faker.Core
 {
     public class ObjectInitor
     {
@@ -53,7 +53,7 @@ namespace Core.Core
             return obj;
         }
 
-        private static object? GetDefaultValue(Type type)
+        public static object? GetDefaultValue(Type type)
         {
             return type.IsValueType ? Activator.CreateInstance(type) : null;
         }

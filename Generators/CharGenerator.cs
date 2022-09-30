@@ -1,7 +1,7 @@
-﻿using Core.Context;
-using Core.Interfaces;
+﻿using Faker.Context;
+using Faker.Interfaces;
 
-namespace Core.Generators
+namespace Faker.Generators
 {
     public class CharGenerator : IValueGenerator
     {

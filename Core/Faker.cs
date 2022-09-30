@@ -1,7 +1,7 @@
-﻿using Core.Context;
-using Core.Interfaces;
+﻿using Faker.Context;
+using Faker.Interfaces;
 
-namespace Core.Core
+namespace Faker.Core
 {
     public class Faker : IFaker
     {
@@ -58,7 +58,7 @@ namespace Core.Core
             // Checking types for cyclic dependency
             if (_cyclicChecker.IsCyclic(type))
             {
-                //throw new FakerException($"Cyclic dependence in {type}");
+                //throw new FakerException($"Cyclic dependence in {type.FullName}");
                 return null;
             }
 
