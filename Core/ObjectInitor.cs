@@ -14,16 +14,18 @@ namespace Faker.Core
 
         public object InitObject(object obj)
         {
-
             var members = obj.GetType().GetMembers()
                 .Where(m => m.MemberType == MemberTypes.Field || m.MemberType == MemberTypes.Property);
 
+            // Try to initialize all public members
             foreach (var member in members)
             {
                 try
                 {
                     switch (member.MemberType)
                     {
+
+                        // Initialize public fields
                         case MemberTypes.Field:
                             {
                                 FieldInfo field = (FieldInfo)member;
@@ -33,6 +35,8 @@ namespace Faker.Core
                                 }
                             }
                             break;
+
+                        // Initialize public prorepties
                         case MemberTypes.Property:
                             {
                                 PropertyInfo prop = (PropertyInfo)member;

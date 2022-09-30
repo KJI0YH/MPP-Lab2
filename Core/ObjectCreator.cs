@@ -40,6 +40,7 @@ namespace Faker.Core
                 }
             }
 
+            // Try to create simple object without constructor
             try
             {
                 if (result == null)
