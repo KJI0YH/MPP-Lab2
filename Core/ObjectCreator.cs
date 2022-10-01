@@ -59,7 +59,7 @@ namespace Faker.Core
             }
             else
             {
-                throw new FakerException($"There are no public constructors in {type.FullName}");
+                throw new FakerException($"Can not create an object of type {type.FullName}");
             }
         }
     }

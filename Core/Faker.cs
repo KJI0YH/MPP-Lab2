@@ -14,7 +14,8 @@ namespace Faker.Core
             _generatorContext = new GeneratorContext(new Random(), this);
             _cyclicChecker = new CyclicChecker();
 
-            // Get simple type generators
+            // Get simple type generators 
+            // Fix
             var types = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(t => t.GetTypes())
                 .Where(i => typeof(IValueGenerator).IsAssignableFrom(i) && i.IsClass);

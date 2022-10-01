@@ -50,7 +50,7 @@ namespace Faker.Core
                 }
                 catch
                 {
-
+                    // Do not hide Exception
                 }
             }
 
